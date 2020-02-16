@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kgc.aviation.dao.regulations.CascaderDao">
+    <resultMap id="regtype" type="RegulationsType">
+        <id column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
+        <collection property="regulationsClassifyList" ofType="cn.kgc.aviation.model.entity.RegulationsClassify">
+            <id column="classify_id" property="classifyId"/>
+            <result column="type_id" property="typeId"/>
+            <result column="classify_name" property="classifyName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="dire" type="Directory">
+        <id column="did" property="did"/>
+        <result column="dname" property="dname"/>
+        <result column="rid" property="rid"/>
+        <result column="sort" property="sort"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="key" property="key"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="regvo" type="cn.kgc.aviation.model.dto.vo.RegulationsVo">
+        <id column="rid" property="rid"/>
+        <result column="classify_id" property="classifyId"/>
+        <result column="rno" property="rno"/>
+        <result column="alias" property="alias"/>
+        <result column="version" property="version"/>
+        <result column="rname" property="rname"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="showType" resultMap="regtype">
+        select * from regulations_type r1 left join regulations_classify r2 on r1.type_id=r2.type_id
+    </select>
+
+    <select id="getAllNodes" resultMap="dire">
+        select * from directory order by level asc,sort asc
+    </select>
+
+    <select id="getDire" resultMap="dire">
+        select * from directory where rid=#{rid} order by level asc,sort asc
+    </select>
+
+    <select id="getAllReg" resultMap="regvo">
+        select rid,classify_id,rno,alias,version,rname,status from regulations
+    </select>
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kgc.aviation.dao.regulations.TermsDao">
+    <resultMap id="termVo" type="cn.kgc.aviation.model.dto.vo.TermsVo">
+        <id column="tid" property="tid"/>
+        <result column="rid" property="rid"/>
+        <result column="did" property="did"/>
+        <result column="tno" property="tno"/>
+        <result column="terms_alias" property="termsAlias"/>
+        <result column="terms_title" property="termsTitle"/>
+        <result column="terms_content" property="termsContent"/>
+        <result column="terms_version" property="termsVersion"/>
+        <result column="terms_keyword" property="termsKeyword"/>
+        <result column="terms_status" property="termsStatus"/>
+        <result column="rname" property="rname"/>
+    </resultMap>
+
+    <resultMap id="term" type="Terms">
+        <id column="tid" property="tid"/>
+        <result column="rid" property="rid"/>
+        <result column="did" property="did"/>
+        <result column="tno" property="tno"/>
+        <result column="terms_alias" property="termsAlias"/>
+        <result column="terms_title" property="termsTitle"/>
+        <result column="terms_content" property="termsContent"/>
+        <result column="terms_version" property="termsVersion"/>
+        <result column="terms_keyword" property="termsKeyword"/>
+        <result column="terms_status" property="termsStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getTermsCount" resultType="integer">
+        select count(1) from `terms` t join `regulations` r on t.rid=r.rid where t.rid=#{rid}
+    </select>
+
+    <select id="getTerms" resultMap="termVo">
+        select t.tid,t.rid,t.did,t.tno,t.terms_alias,t.terms_title,t.terms_content,t.terms_version,t.terms_keyword,t.terms_status,r.rname from `terms` t join `regulations` r on t.rid=r.rid where t.rid=#{rid} limit #{start},#{pageSize}
+    </select>
+
+    <select id="getTermsById" resultMap="term">
+        select * from `terms` where `tid`=#{tid}
+    </select>
+
+    <delete id="delTerms">
+        delete from `terms` where `tid`=#{tid}
+    </delete>
+
+    <update id="updateTerms">
+        update `terms` set `rid`=#{terms.rid},`did`=#{terms.did},`tno`=#{terms.tno},`terms_alias`=#{terms.termsAlias},
+        `terms_title`=#{terms.termsTitle},`terms_content`=#{terms.termsContent},`terms_version`=#{terms.termsVersion},
+        `terms_keyword`=#{terms.termsKeyword},`terms_status`=#{terms.termsStatus},`update_time`=now() where `tid`=#{terms.tid}
+    </update>
+
+    <insert id="addTerms">
+        insert  into `terms` values (null,#{terms.rid},#{terms.did},#{terms.tno},#{terms.termsAlias},#{terms.termsTitle},#{terms.termsContent},#{terms.termsVersion},#{terms.termsKeyword},1,now(),null)
+    </insert>
+
+</mapper>

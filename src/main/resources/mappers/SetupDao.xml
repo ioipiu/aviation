@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kgc.aviation.dao.setup.SetupDao">
+    <resultMap id="intro" type="Introduction">
+        <id column="id" property="id"/>
+        <result column="desc" property="desc"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="agree" type="Agreement">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="smtp" type="Smtp">
+        <id column="id" property="id"/>
+        <result column="email" property="email"/>
+        <result column="server" property="server"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="sendnum" property="sendNum"/>
+        <result column="logintype" property="loginType"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="mess" type="Sms">
+        <id column="id" property="id"/>
+        <result column="apiKey" property="apiKey"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="fb" type="Feedback">
+        <id column="fid" property="fid"/>
+        <result column="uid" property="uid"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="web" type="Websettings">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="status" property="status"/>
+        <result column="domain" property="domain"/>
+        <result column="logo" property="logo"/>
+        <result column="email" property="email"/>
+        <result column="language" property="language"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getIntro" resultMap="intro">
+        select * from `introduction` where `status`=1
+    </select>
+
+    <update id="updateIntro">
+        update `introduction` set `desc`=#{desc},`update_time`=now() where `id`=#{id}
+    </update>
+
+    <select id="getAgree" resultMap="agree">
+        select * from `agreement` where `status`=1
+    </select>
+
+    <update id="updateAgree">
+        update `agreement` set `content`=#{content},`update_time`=now() where `id`=#{id}
+    </update>
+
+    <select id="getSmtp" resultMap="smtp">
+        select * from `smtp` where `status`=1
+    </select>
+
+    <update id="updateSmtp">
+        update `smtp` set `email`=#{smtp.email},`server`=#{smtp.server},`username`=#{smtp.username},`password`=#{smtp.password},`sendnum`=#{smtp.sendNum},`logintype`=#{smtp.loginType},`status`=#{smtp.status},`update_time`=now() where `id`=#{smtp.id}
+    </update>
+
+    <select id="getSms" resultMap="mess">
+        select * from `sms` where `status`=1
+    </select>
+
+    <update id="updateSms">
+        update `sms` set `apiKey`=#{apiKey},`update_time`=now() where `id`=#{id}
+    </update>
+
+    <select id="showFeedback" resultMap="fb">
+        select * from `feedback` order by create_time desc limit #{start},#{pageSize}
+    </select>
+
+    <select id="getFeedbackCount" resultType="integer">
+        select count(1) from `feedback`
+    </select>
+
+    <delete id="delFeedback">
+        delete from `feedback` where `fid`=#{fid}
+    </delete>
+
+    <select id="getWebSet" resultMap="web">
+        select * from `websettings`
+    </select>
+
+    <update id="updateWebSet">
+        update `websettings` set `title`=#{webset.title},`status`=#{webset.status},`domain`=#{webset.domain},`logo`=#{webset.logo},`email`=#{webset.email},`language`=#{webset.language},`update_time`=now() where `id`=#{webset.id}
+    </update>
+</mapper>

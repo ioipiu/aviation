@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kgc.aviation.dao.user.AdminDao">
+    <resultMap id="ad" type="Admin">
+        <id column="aid" property="aid"/>
+        <result column="aname" property="aname"/>
+        <result column="mobile" property="mobile"/>
+        <result column="passWord" property="passWord"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="login" resultType="Admin">
+        select * from `admin` where `mobile`=#{mobile} and `passWord`=#{pwd} and `status`=1
+    </select>
+
+    <select id="getTotal" resultType="integer">
+        select count(1) from `admin` where `type`=1 and `status`=1
+    </select>
+
+    <select id="showAdmin" resultMap="ad">
+        select * from `admin` where `type`=1 and `status`=1 order by create_time desc limit #{start},#{pageSize}
+    </select>
+
+    <select id="findMobile" resultType="int">
+        select count(1) from `admin` where `mobile`=#{mobile}
+    </select>
+
+    <insert id="addAdmin">
+        insert into `admin` values (null,#{aname},#{mobile},#{pwd},1,1,now(),null)
+    </insert>
+
+    <update id="delAdmin">
+        update `admin` set `status`=0 where `aid`=#{aid}
+    </update>
+
+    <update id="updateAdmin">
+        update `admin` set `aname`=#{aname},`passWord`=#{pwd},`update_time`=now() where `aid`=#{aid}
+    </update>
+</mapper>

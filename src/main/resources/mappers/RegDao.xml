@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kgc.aviation.dao.regulations.RegDao">
+    <resultMap id="regvo" type="cn.kgc.aviation.model.dto.vo.RegulationsVo">
+        <id column="rid" property="rid"/>
+        <result column="classify_id" property="classifyId"/>
+        <result column="rno" property="rno"/>
+        <result column="alias" property="alias"/>
+        <result column="version" property="version"/>
+        <result column="rname" property="rname"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="reg" type="Regulations">
+        <id column="rid" property="rid"/>
+        <result column="classify_id" property="classifyId"/>
+        <result column="rno" property="rno"/>
+        <result column="alias" property="alias"/>
+        <result column="version" property="version"/>
+        <result column="rname" property="rname"/>
+        <result column="status" property="status"/>
+        <result column="icon" property="icon"/>
+        <result column="pdf_name" property="pdfName"/>
+        <result column="pdf_link" property="pdfLink"/>
+        <result column="desc" property="desc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="regtype" type="RegulationsType">
+        <id column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
+        <collection property="regulationsClassifyList" ofType="cn.kgc.aviation.model.entity.RegulationsClassify">
+            <id column="classify_id" property="classifyId"/>
+            <result column="type_id" property="typeId"/>
+            <result column="classify_name" property="classifyName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="regclass" type="RegulationsClassify">
+        <id column="classify_id" property="classifyId"/>
+        <result column="type_id" property="typeId"/>
+        <result column="classify_name" property="classifyName"/>
+    </resultMap>
+
+    <select id="showType" resultMap="regtype">
+        select * from regulations_type r1 left join regulations_classify r2 on r1.type_id=r2.type_id
+    </select>
+
+    <insert id="addType">
+        insert into regulations_type values (null,#{typeName})
+    </insert>
+
+    <select id="showClassify" resultMap="regclass">
+        select * from regulations_classify where type_id=#{typeId}
+    </select>
+
+    <insert id="addClassify">
+        insert into regulations_classify values (null,#{typeId},#{classifyName})
+    </insert>
+
+    <update id="updateClassify">
+        update regulations_classify set type_id=#{reg.typeId},classify_name=#{reg.classifyName} where classify_id=#{reg.classifyId}
+    </update>
+
+    <delete id="delClassify">
+        delete from regulations_classify where classify_id=#{classifyId}
+    </delete>
+
+    <select id="getAllReg" resultMap="regvo">
+        select rid,classify_id,rno,alias,version,rname,status from regulations limit #{start},#{pageSize}
+    </select>
+
+    <select id="getCount" resultType="integer">
+        select count(1) from regulations_type r1 join regulations_classify r2 on r1.type_id=r2.type_id join regulations r3
+        on r2.classify_id=r3.classify_id
+    </select>
+
+    <delete id="delReg">
+        delete from regulations where rid = #{rid}
+    </delete>
+
+    <select id="getRegById" resultMap="reg">
+        select * from regulations where rid = #{rid}
+    </select>
+
+    <insert id="addReg">
+        insert into regulations values (null,#{reg.classifyId},#{reg.rno},#{reg.alias},#{reg.version},#{reg.rname},#{reg.status},#{reg.icon},#{reg.pdfName},#{reg.pdfLink},#{reg.desc},now(),null )
+    </insert>
+
+    <update id="updateReg">
+        update `regulations` set `classify_id`=#{reg.classifyId},`rno`=#{reg.rno},`alias`=#{reg.alias},`version`=#{reg.version},`rname`=#{reg.rname},`status`=#{reg.status},`icon`=#{reg.icon},`pdf_name`=#{reg.pdfName},`pdf_link`=#{reg.pdfLink},`desc`=#{reg.desc},`update_time`=#{reg.updateTime} where `rid`=#{reg.rid}
+    </update>
+</mapper>
