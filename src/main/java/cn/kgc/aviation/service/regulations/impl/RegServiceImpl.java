@@ -8,6 +8,9 @@ import cn.kgc.aviation.model.entity.RegulationsType;
 import cn.kgc.aviation.service.regulations.RegService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,10 +66,19 @@ public class RegServiceImpl implements RegService {
     }
 
     @Override
-    public Boolean delClassify(Integer classifyId) {
+    @Transactional
+    public Boolean delClassify(Integer classifyId) throws Exception{
         int i = regDao.delClassify(classifyId);
         if (i > 0) {
-            return true;
+            int b = regDao.getReg(classifyId);
+            if (b == 0) {
+                return true;
+            }else {
+                int c = regDao.delRegByClassifyId(classifyId);
+                if (c > 0) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -104,9 +116,12 @@ public class RegServiceImpl implements RegService {
     }
 
     @Override
-    public Boolean delReg(Integer rid) {
+    @Transactional
+    public Boolean delReg(Integer rid) throws Exception{
         int i = regDao.delReg(rid);
         if (i > 0) {
+            int b = regDao.delAllDir(rid);
+            int c = regDao.delAllTerms(rid);
             return true;
         }
         return false;
@@ -115,5 +130,35 @@ public class RegServiceImpl implements RegService {
     @Override
     public Regulations getRegById(Integer rid) {
         return regDao.getRegById(rid);
+    }
+
+    @Override
+    @Transactional
+    public Boolean delType(Integer typeId) throws Exception{
+        int i = regDao.delType(typeId);
+        if (i > 0) {
+            List<RegulationsClassify> classifyList = regDao.showClassify(typeId);
+            if (classifyList.size() == 0) {
+                return true;
+            }else {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (RegulationsClassify item : classifyList) {
+                    list.add(item.getClassifyId());
+                }
+                int b = regDao.delAllClassify(typeId);
+                if (b > 0) {
+                    int c = regDao.getRegByClassifyId(list);
+                    if (c == 0) {
+                        return true;
+                    }else {
+                        int d = regDao.delAllReg(list);
+                        if (d > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

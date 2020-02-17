@@ -73,7 +73,7 @@ public class RegController {
     }
 
     @PostMapping("/addClassify")
-    public Result addClassify(Integer typeId,String classifyName) {
+    public Result addClassify(Integer typeId, String classifyName) {
         Boolean flag = regService.addClassify(typeId, classifyName);
         if (!flag) {
             return ResultUtil.failure(3001);
@@ -91,7 +91,7 @@ public class RegController {
     }
 
     @PostMapping("/delClassify")
-    public Result delClassify(Integer classifyId) {
+    public Result delClassify(Integer classifyId) throws Exception {
         Boolean flag = regService.delClassify(classifyId);
         if (!flag) {
             return ResultUtil.failure(3001);
@@ -109,7 +109,7 @@ public class RegController {
     }
 
     @PostMapping("/delReg")
-    public Result delReg(Integer rid) {
+    public Result delReg(Integer rid) throws Exception {
         Boolean flag = regService.delReg(rid);
         if (!flag) {
             return ResultUtil.failure(3001);
@@ -153,8 +153,17 @@ public class RegController {
         HashMap<String, Object> map = new HashMap<>();
         Auth auth = qiniu.auth();
         String token = auth.uploadToken(bucket);
-        map.put("token",token);
-        map.put("host",host);
+        map.put("token", token);
+        map.put("host", host);
         return ResultUtil.success(map);
+    }
+
+    @PostMapping("/delType")
+    public Result delType(Integer typeId) throws Exception {
+        Boolean flag = regService.delType(typeId);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("删除成功");
     }
 }

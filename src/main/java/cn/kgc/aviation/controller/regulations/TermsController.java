@@ -43,7 +43,7 @@ public class TermsController {
     }
 
     @PostMapping("/delTerms")
-    public Result delTerms(Integer tid) {
+    public Result delTerms(Integer tid) throws Exception {
         Boolean flag = termsService.delTerms(tid);
         if (!flag) {
             return ResultUtil.failure(3001);

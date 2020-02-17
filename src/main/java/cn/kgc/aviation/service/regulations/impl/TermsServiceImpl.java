@@ -6,6 +6,7 @@ import cn.kgc.aviation.model.entity.Terms;
 import cn.kgc.aviation.service.regulations.TermsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,8 @@ public class TermsServiceImpl implements TermsService {
     }
 
     @Override
-    public Boolean delTerms(Integer tid) {
+    @Transactional
+    public Boolean delTerms(Integer tid) throws Exception{
         int i = termsDao.delTerms(tid);
         if (i > 0) {
             return true;

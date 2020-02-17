@@ -93,4 +93,42 @@
     <update id="updateReg">
         update `regulations` set `classify_id`=#{reg.classifyId},`rno`=#{reg.rno},`alias`=#{reg.alias},`version`=#{reg.version},`rname`=#{reg.rname},`status`=#{reg.status},`icon`=#{reg.icon},`pdf_name`=#{reg.pdfName},`pdf_link`=#{reg.pdfLink},`desc`=#{reg.desc},`update_time`=#{reg.updateTime} where `rid`=#{reg.rid}
     </update>
+
+    <delete id="delType">
+        delete from `regulations_type` where `type_id`=#{id}
+    </delete>
+
+    <delete id="delAllClassify">
+        delete from `regulations_classify` where `type_id`=#{id}
+    </delete>
+
+    <update id="delAllReg">
+        update from `regulations` set `classify_id`=0,`update_time`=now() where `classify_id` in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="delAllDir">
+        delete from `directory` where rid=#{rid}
+    </delete>
+
+    <delete id="delAllTerms">
+        delete from `terms` where rid=#{rid}
+    </delete>
+
+    <update id="delRegByClassifyId">
+        update `regulations` set `classify_id`=0 where `classify_id`=#{classifyId}
+    </update>
+
+    <select id="getRegByClassifyId" resultType="int">
+        select count(1) from `regulations` where `classify_id` in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getReg" resultType="int">
+        select count(1) from `regulations` where `classify_id`=#{classifyId}
+    </select>
 </mapper>

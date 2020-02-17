@@ -8,7 +8,7 @@ public interface TermsService {
 
     Map<String, Object> getTerms(Integer rid, Integer currentPage, Integer pageSize);
 
-    Boolean delTerms(Integer tid);
+    Boolean delTerms(Integer tid) throws Exception;
 
     Terms getTermsById(Integer tid);
 

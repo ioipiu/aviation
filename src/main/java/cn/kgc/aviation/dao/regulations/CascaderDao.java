@@ -18,4 +18,12 @@ public interface CascaderDao {
     List<Directory> getDire(@Param("rid") Integer rid);
 
     List<RegulationsVo> getAllReg();
+
+    int delDir(@Param("did") Integer did);
+
+    int delTreeDir(@Param("list") List<Integer> treeList);
+
+    Integer getTerms(@Param("list") List<Integer> treeList);
+
+    int delTerms(@Param("list") List<Integer> treeList);
 }

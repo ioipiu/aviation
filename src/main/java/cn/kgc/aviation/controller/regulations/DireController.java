@@ -30,4 +30,13 @@ public class DireController {
         }
         return ResultUtil.success("添加成功");
     }
+
+    @PostMapping("/updateDir")
+    public Result updateDir(@RequestBody Directory directory) {
+        Boolean flag = direService.updateDir(directory);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("修改成功");
+    }
 }

@@ -18,6 +18,10 @@
     </resultMap>
 
     <insert id="AddDir">
-        insert into directory values (null,#{dir.dname},#{dir.rid},#{dir.sort},#{dir.parentId},null,#{dir.level},1,now(),null )
+        insert into `directory` values (null,#{dir.dname},#{dir.rid},#{dir.sort},#{dir.parentId},null,#{dir.level},1,now(),null )
     </insert>
+
+    <update id="updateDir">
+        update `directory` set dname=#{dir.dname},rid=#{dir.rid},sort=#{dir.sort},parent_id=#{dir.parentId},`level`=#{dir.level},`update_time`=now() where did=#{dir.did}
+    </update>
 </mapper>

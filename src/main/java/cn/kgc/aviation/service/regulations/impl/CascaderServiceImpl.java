@@ -9,6 +9,7 @@ import cn.kgc.aviation.model.entity.RegulationsType;
 import cn.kgc.aviation.service.regulations.CascaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -25,8 +26,8 @@ public class CascaderServiceImpl implements CascaderService {
     @Autowired
     private CascaderDao cascaderDao;
 
-    private HashMap<Integer, DirectoryDto> treeNodesMap = new HashMap<>();
-    private List<DirectoryDto> treeNodesList = new ArrayList<>();
+    private  ArrayList<DirectoryDto> list;
+    private ArrayList<Integer> treeNodesList = new ArrayList<>();
 
     @Override
     public List<Options> showOptions() {
@@ -68,7 +69,7 @@ public class CascaderServiceImpl implements CascaderService {
 
     @Override
     public List<DirectoryDto> getDire(Integer rid) {
-        ArrayList<DirectoryDto> list = new ArrayList<>();
+        list = new ArrayList<>();
         List<Directory> allNodes = cascaderDao.getDire(rid);
         for (Directory item : allNodes) {
             DirectoryDto dto = new DirectoryDto(item);
@@ -80,6 +81,38 @@ public class CascaderServiceImpl implements CascaderService {
     @Override
     public List<RegulationsVo> getAllReg() {
         return cascaderDao.getAllReg();
+    }
+
+    @Override
+    @Transactional
+    public Boolean delDir(Integer rid, Integer did) throws Exception{
+
+        int i = cascaderDao.delDir(did);
+        if (i > 0) {
+            list = new ArrayList<>();
+            List<Directory> allNodes = cascaderDao.getDire(rid);
+            for (Directory item : allNodes) {
+                DirectoryDto dto = new DirectoryDto(item);
+                list.add(dto);
+            }
+            List<Integer> integers = treeMenuList(list, did);
+            if (integers.size() > 0) {
+                int d = cascaderDao.delTreeDir(integers);
+                if (d > 0) {
+                    Integer terms = cascaderDao.getTerms(integers);
+                    if (terms == 0) {
+                        return true;
+                    }else {
+                        int c = cascaderDao.delTerms(integers);
+                        if (c > 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+        }
+        return false;
     }
 
     private List<DirectoryDto> listGetStree(List<DirectoryDto> list) {
@@ -100,6 +133,16 @@ public class CascaderServiceImpl implements CascaderService {
             }
         }
         return treeList;
+    }
+
+    private List<Integer> treeMenuList(List<DirectoryDto> list, Integer did) {
+        for (DirectoryDto directoryDto : list) {
+            if (directoryDto.getParentId().equals(did)) {
+                treeMenuList(list, directoryDto.getDid());
+                treeNodesList.add(directoryDto.getDid());
+            }
+        }
+        return treeNodesList;
     }
 
 

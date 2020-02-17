@@ -19,4 +19,6 @@ public interface CascaderService {
 
     List<RegulationsVo> getAllReg();
 
+    Boolean delDir(Integer rid, Integer did) throws Exception;
+
 }

@@ -64,4 +64,13 @@ public class CascaderController {
         }
         return ResultUtil.success(list);
     }
+
+    @PostMapping("/delDir")
+    public Result delDir(Integer rid, Integer did) throws Exception {
+        Boolean flag = cascaderService.delDir(rid, did);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("删除成功");
+    }
 }

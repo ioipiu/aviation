@@ -36,4 +36,20 @@ public interface RegDao {
 
     Regulations getRegById(@Param("rid") Integer rid);
 
+    int delRegByClassifyId(@Param("classifyId") Integer classifyId);
+
+    int delType(@Param("id") Integer typeId);
+
+    int delAllClassify(@Param("id") Integer typeId);
+
+    int delAllReg(@Param("list") List<Integer> list);
+
+    int delAllDir(@Param("rid") Integer rid);
+
+    int delAllTerms(@Param("rid") Integer rid);
+
+    int getRegByClassifyId(@Param("list") List<Integer> list);
+
+    int getReg(@Param("classifyId") Integer classifyId);
+
 }

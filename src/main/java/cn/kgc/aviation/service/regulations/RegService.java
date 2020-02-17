@@ -4,9 +4,6 @@ package cn.kgc.aviation.service.regulations;
 import cn.kgc.aviation.model.entity.Regulations;
 import cn.kgc.aviation.model.entity.RegulationsClassify;
 import cn.kgc.aviation.model.entity.RegulationsType;
-import org.apache.ibatis.annotations.Param;
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +19,7 @@ public interface RegService {
 
     Boolean updateClassify(RegulationsClassify regulationsClassify);
 
-    Boolean delClassify(Integer classifyId);
+    Boolean delClassify(Integer classifyId) throws Exception;
 
     Map<String, Object> getAllReg(Integer currentPage, Integer pageSize);
 
@@ -30,7 +27,10 @@ public interface RegService {
 
     Boolean updateReg(Regulations regulations);
 
-    Boolean delReg(Integer rid);
+    Boolean delReg(Integer rid) throws Exception;
 
     Regulations getRegById(Integer rid);
+
+    Boolean delType(Integer typeId) throws Exception;
+
 }

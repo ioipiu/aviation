@@ -41,15 +41,39 @@
     </select>
 
     <select id="getAllNodes" resultMap="dire">
-        select * from directory order by level asc,sort asc
+        select * from `directory` order by level asc,sort asc
     </select>
 
     <select id="getDire" resultMap="dire">
-        select * from directory where rid=#{rid} order by level asc,sort asc
+        select * from `directory` where rid=#{rid} order by level asc,sort asc
     </select>
 
     <select id="getAllReg" resultMap="regvo">
-        select rid,classify_id,rno,alias,version,rname,status from regulations
+        select rid,classify_id,rno,alias,version,rname,status from `regulations`
     </select>
 
+    <delete id="delDir">
+        delete from `directory` where did=#{did}
+    </delete>
+
+    <delete id="delTreeDir">
+        delete from `directory` where did in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getTerms" resultType="integer">
+        select count(1) from `terms` where did in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="delTerms">
+        delete from `terms` where did in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

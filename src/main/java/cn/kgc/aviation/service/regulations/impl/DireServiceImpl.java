@@ -27,4 +27,13 @@ public class DireServiceImpl implements DireService {
         }
         return false;
     }
+
+    @Override
+    public Boolean updateDir(Directory directory) {
+        int i = direDao.updateDir(directory);
+        if (i > 0) {
+            return true;
+        }
+        return false;
+    }
 }
