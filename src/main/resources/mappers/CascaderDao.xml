@@ -76,4 +76,8 @@
             #{id}
         </foreach>
     </delete>
+
+    <delete id="delTermsById">
+        delete from `terms` where did=#{did}
+    </delete>
 </mapper>

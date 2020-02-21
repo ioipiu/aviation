@@ -7,6 +7,7 @@ import cn.kgc.aviation.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,5 +68,14 @@ public class TermsController {
             return ResultUtil.failure(3001);
         }
         return ResultUtil.success("添加成功");
+    }
+
+    @PostMapping("/getTermsByDid")
+    public Result getTermsByDid(Integer did) {
+        List<Terms> termsList = termsService.getTermsByDid(did);
+        if (termsList.size() == 0) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success(termsList);
     }
 }

@@ -21,4 +21,7 @@ public interface TermsDao {
     int updateTerms(@Param("terms") Terms terms);
 
     int addTerms(@Param("terms") Terms terms);
+
+    List<Terms> getTermByDid(@Param("did")Integer did);
+
 }

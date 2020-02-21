@@ -120,9 +120,21 @@ public class RegServiceImpl implements RegService {
     public Boolean delReg(Integer rid) throws Exception{
         int i = regDao.delReg(rid);
         if (i > 0) {
+            int a = regDao.getDirById(rid);
+            if (a == 0) {
+                return true;
+            }
             int b = regDao.delAllDir(rid);
-            int c = regDao.delAllTerms(rid);
-            return true;
+            if (b > 0) {
+                int c = regDao.getTermsById(rid);
+                if (c == 0) {
+                    return true;
+                }
+                int d = regDao.delAllTerms(rid);
+                if (d > 0) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -160,5 +172,10 @@ public class RegServiceImpl implements RegService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<RegulationsClassify> getRegsByTypeId(Integer typeId) {
+        return regDao.getRegsByTypeId(typeId);
     }
 }

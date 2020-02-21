@@ -166,4 +166,13 @@ public class RegController {
         }
         return ResultUtil.success("删除成功");
     }
+
+    @PostMapping("/getRegsByTypeId")
+    public Result getRegsByTypeId(Integer typeId) {
+        List<RegulationsClassify> regs = regService.getRegsByTypeId(typeId);
+        if (regs.size() == 0) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success(regs);
+    }
 }

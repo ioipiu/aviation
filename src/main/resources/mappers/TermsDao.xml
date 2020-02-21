@@ -58,4 +58,7 @@
         insert  into `terms` values (null,#{terms.rid},#{terms.did},#{terms.tno},#{terms.termsAlias},#{terms.termsTitle},#{terms.termsContent},#{terms.termsVersion},#{terms.termsKeyword},1,now(),null)
     </insert>
 
+    <select id="getTermByDid" resultMap="term">
+        select * from `terms` where `did`=#{did}
+    </select>
 </mapper>

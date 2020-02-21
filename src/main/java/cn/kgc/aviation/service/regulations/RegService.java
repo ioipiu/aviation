@@ -33,4 +33,5 @@ public interface RegService {
 
     Boolean delType(Integer typeId) throws Exception;
 
+    List<RegulationsClassify> getRegsByTypeId(Integer typeId);
 }

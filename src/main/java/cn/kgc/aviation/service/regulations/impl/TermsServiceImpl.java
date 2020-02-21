@@ -71,4 +71,9 @@ public class TermsServiceImpl implements TermsService {
         }
         return false;
     }
+
+    @Override
+    public List<Terms> getTermsByDid(Integer did) {
+        return termsDao.getTermByDid(did);
+    }
 }

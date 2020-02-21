@@ -89,6 +89,7 @@ public class CascaderServiceImpl implements CascaderService {
 
         int i = cascaderDao.delDir(did);
         if (i > 0) {
+            cascaderDao.delTermsById(did);
             list = new ArrayList<>();
             List<Directory> allNodes = cascaderDao.getDire(rid);
             for (Directory item : allNodes) {
@@ -110,7 +111,7 @@ public class CascaderServiceImpl implements CascaderService {
                     }
                 }
             }
-
+            return true;
         }
         return false;
     }

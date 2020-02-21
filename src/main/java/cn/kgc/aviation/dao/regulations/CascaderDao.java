@@ -26,4 +26,6 @@ public interface CascaderDao {
     Integer getTerms(@Param("list") List<Integer> treeList);
 
     int delTerms(@Param("list") List<Integer> treeList);
+
+    int delTermsById(@Param("did") Integer did);
 }

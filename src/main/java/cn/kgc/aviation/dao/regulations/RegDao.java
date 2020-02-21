@@ -52,4 +52,10 @@ public interface RegDao {
 
     int getReg(@Param("classifyId") Integer classifyId);
 
+    List<RegulationsClassify> getRegsByTypeId(@Param("typeId") Integer typeId);
+
+    int getDirById(@Param("rid") Integer rid);
+
+    int getTermsById(@Param("rid") Integer rid);
+
 }

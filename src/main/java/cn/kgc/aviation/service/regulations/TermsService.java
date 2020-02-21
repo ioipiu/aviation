@@ -2,6 +2,8 @@ package cn.kgc.aviation.service.regulations;
 
 
 import cn.kgc.aviation.model.entity.Terms;
+
+import java.util.List;
 import java.util.Map;
 
 public interface TermsService {
@@ -15,4 +17,6 @@ public interface TermsService {
     Boolean updateTerms(Terms terms);
 
     Boolean addTerms(Terms terms);
+
+    List<Terms> getTermsByDid(Integer did);
 }

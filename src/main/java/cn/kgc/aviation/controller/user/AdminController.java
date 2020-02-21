@@ -2,13 +2,11 @@ package cn.kgc.aviation.controller.user;
 
 import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.Admin;
+import cn.kgc.aviation.model.entity.Info;
 import cn.kgc.aviation.service.user.AdminService;
 import cn.kgc.aviation.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,11 +27,21 @@ public class AdminController {
 
     @PostMapping("/login")
     public Result login(String mobile, String passWord) {
+        Result result = new Result();
         Admin admin = adminService.login(mobile, passWord);
         if (null == admin) {
-            return ResultUtil.failure(3001);
+            result.setCode(60204);
+            result.setMessage("账号或者密码错误");
+            return result;
         }
-        return ResultUtil.success(admin);
+        if (admin.getType() == 0) {
+            result.setCode(20000);
+            result.setData("admin-token");
+        }else {
+            result.setCode(20000);
+            result.setData("editor-token");
+        }
+        return result;
     }
 
     @PostMapping("/showAdmin")
@@ -79,5 +87,35 @@ public class AdminController {
             return ResultUtil.failure(3001);
         }
         return ResultUtil.success("修改成功");
+    }
+
+    @RequestMapping("/getInfo")
+    public Result getInfo(@RequestParam("token") String token) {
+        System.out.println(token);
+        Info info = new Info();
+        Result result = new Result();
+        if (token.equals("admin-token")) {
+            info.setRoles("['admin']");
+            info.setIntroduction("I am a super administrator");
+            info.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+            info.setName("超级管理员");
+        }
+        if (token.equals("editor-token")) {
+            info.setRoles("['editor']");
+            info.setIntroduction("I am an editor");
+            info.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+            info.setName("子管理员");
+        }
+        result.setCode(20000);
+        result.setData(info);
+        return result;
+    }
+
+    @PostMapping("/logout")
+    public Result logout() {
+        Result result = new Result();
+        result.setCode(20000);
+        result.setData("success");
+        return  result;
     }
 }
