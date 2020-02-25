@@ -34,4 +34,7 @@ public interface SetupDao {
     Websettings getWebSet();
 
     int updateWebSet(@Param("webset") Websettings websettings);
+
+    int addFeedback(@Param("feed") Feedback feedback);
+
 }

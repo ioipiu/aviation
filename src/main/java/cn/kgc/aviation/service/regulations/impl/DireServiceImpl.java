@@ -1,5 +1,6 @@
 package cn.kgc.aviation.service.regulations.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.regulations.DireDao;
 import cn.kgc.aviation.model.entity.Directory;
 import cn.kgc.aviation.service.regulations.DireService;
@@ -19,6 +20,7 @@ public class DireServiceImpl implements DireService {
     @Autowired
     private DireDao direDao;
 
+    @Logger("添加目录")
     @Override
     public Boolean addDir(Directory directory) {
         int i = direDao.AddDir(directory);
@@ -28,6 +30,7 @@ public class DireServiceImpl implements DireService {
         return false;
     }
 
+    @Logger("修改目录")
     @Override
     public Boolean updateDir(Directory directory) {
         int i = direDao.updateDir(directory);

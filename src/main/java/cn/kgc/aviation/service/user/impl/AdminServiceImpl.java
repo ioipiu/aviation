@@ -1,5 +1,6 @@
 package cn.kgc.aviation.service.user.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.user.AdminDao;
 import cn.kgc.aviation.model.entity.Admin;
 import cn.kgc.aviation.service.user.AdminService;
@@ -52,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
+    @Logger("添加子管理员")
     @Override
     public Boolean addAdmin(String mobile, String aname, String passWord) {
         int i = adminDao.addAdmin(mobile, aname, passWord);
@@ -61,6 +63,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
+    @Logger("删除子管理员")
     @Override
     public Boolean delAdmin(Integer aid) {
         int i = adminDao.delAdmin(aid);
@@ -70,6 +73,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
+    @Logger("修改子管理员")
     @Override
     public Boolean updateAdmin(Integer aid, String aname, String passWord) {
         int i = adminDao.updateAdmin(aid, aname, passWord);

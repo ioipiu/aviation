@@ -91,7 +91,6 @@ public class AdminController {
 
     @RequestMapping("/getInfo")
     public Result getInfo(@RequestParam("token") String token) {
-        System.out.println(token);
         Info info = new Info();
         Result result = new Result();
         if (token.equals("admin-token")) {

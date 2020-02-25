@@ -35,4 +35,6 @@ public interface SetupService {
     Websettings getWebSet();
 
     Boolean updateWebSet(Websettings websettings);
+
+    Boolean addFeedback(Feedback feedback);
 }

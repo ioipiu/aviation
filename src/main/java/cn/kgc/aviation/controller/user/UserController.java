@@ -1,11 +1,14 @@
 package cn.kgc.aviation.controller.user;
 
 import cn.kgc.aviation.model.dto.Result;
+import cn.kgc.aviation.model.entity.Consulting;
 import cn.kgc.aviation.model.entity.Users;
 import cn.kgc.aviation.service.user.UserService;
 import cn.kgc.aviation.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +24,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    public UserService userService;
 
     @PostMapping("/getUsers")
     public Result showUsers(Integer currentPage, Integer pageSize) {
@@ -57,5 +60,41 @@ public class UserController {
             return ResultUtil.failure(3001);
         }
         return ResultUtil.success("删除成功");
+    }
+
+    @PostMapping("/login")
+    public Result login(String mobile, String password) {
+        Users users = userService.login(mobile, password);
+        if (null == users) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success(users);
+    }
+
+    @PostMapping("/register")
+    public Result register(Users users) {
+        Boolean flag = userService.register(users);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("注册成功");
+    }
+
+    @PostMapping("/addCon")
+    public Result addCon(@RequestBody Consulting consulting) {
+        Boolean flag = userService.addConsulting(consulting);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("提交成功");
+    }
+
+    @PostMapping("/getConByUid")
+    public Result getConByUid(String uid) {
+        List<Consulting> consultingList = userService.getConByUid(uid);
+        if (consultingList.size() == 0) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success(consultingList);
     }
 }

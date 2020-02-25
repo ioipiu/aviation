@@ -1,0 +1,16 @@
+2020-02-24 20:12:57,877 ERROR (CustomExceptionHandler.java:28)- org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist
+### The error may exist in file [D:\ideaProject\aviation\target\classes\mappers\SetupDao.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: select * from `introduction1` where `status`=1
+### Cause: java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist
+2020-02-24 20:14:25,519 ERROR (CustomExceptionHandler.java:28)- org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist
+### The error may exist in file [D:\ideaProject\aviation\target\classes\mappers\SetupDao.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: select * from `introduction1` where `status`=1
+### Cause: java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Table 'regulations.introduction1' doesn't exist

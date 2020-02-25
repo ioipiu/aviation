@@ -55,4 +55,20 @@
         delete from `consulting` where zid=#{zid}
     </delete>
 
+    <select id="login" resultMap="usr">
+        select * from `users` where mobile=#{mobile} and password=#{pwd}
+    </select>
+
+    <insert id="register">
+        insert into `users` values (#{user.uid},#{user.uname},#{user.gender},#{user.mobile},#{user.password},0,1,now(),null)
+    </insert>
+
+    <insert id="addConsulting">
+        insert into `consulting` values (#{con.zid},#{con.uid},#{con.cname},#{con.phone},#{con.company},#{con.terms},#{con.content},#{con.email},#{con.wechat},1,now(),null)
+    </insert>
+
+    <select id="getConByUid" resultMap="con">
+        select * from `consulting` where `uid`=#{uid}
+    </select>
+
 </mapper>

@@ -112,4 +112,8 @@
     <update id="updateWebSet">
         update `websettings` set `title`=#{webset.title},`status`=#{webset.status},`domain`=#{webset.domain},`logo`=#{webset.logo},`email`=#{webset.email},`language`=#{webset.language},`update_time`=now() where `id`=#{webset.id}
     </update>
+
+    <insert id="addFeedback">
+        insert into `feedback` values (#{feed.fid},#{feed.uid},#{feed.content},1,now(),null)
+    </insert>
 </mapper>

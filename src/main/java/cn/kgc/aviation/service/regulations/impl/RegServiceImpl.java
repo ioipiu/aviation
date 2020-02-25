@@ -1,5 +1,6 @@
 package cn.kgc.aviation.service.regulations.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.regulations.RegDao;
 import cn.kgc.aviation.model.dto.vo.RegulationsVo;
 import cn.kgc.aviation.model.entity.Regulations;
@@ -33,6 +34,7 @@ public class RegServiceImpl implements RegService {
         return regDao.showType();
     }
 
+    @Logger("添加一级分类")
     @Override
     public Boolean addType(String typeName) {
         int i = regDao.addType(typeName);
@@ -47,6 +49,7 @@ public class RegServiceImpl implements RegService {
         return regDao.showClassify(typeId);
     }
 
+    @Logger("添加二级分类")
     @Override
     public Boolean addClassify(Integer typeId, String classifyName) {
         int i = regDao.addClassify(typeId, classifyName);
@@ -56,6 +59,7 @@ public class RegServiceImpl implements RegService {
         return false;
     }
 
+    @Logger("修改二级分类")
     @Override
     public Boolean updateClassify(RegulationsClassify regulationsClassify) {
         int i = regDao.updateClassify(regulationsClassify);
@@ -65,8 +69,9 @@ public class RegServiceImpl implements RegService {
         return false;
     }
 
+    @Logger("删除二级分类")
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean delClassify(Integer classifyId) throws Exception{
         int i = regDao.delClassify(classifyId);
         if (i > 0) {
@@ -97,6 +102,7 @@ public class RegServiceImpl implements RegService {
         return map;
     }
 
+    @Logger("添加法规")
     @Override
     public Boolean addReg(Regulations regulations) {
         int i = regDao.addReg(regulations);
@@ -106,6 +112,7 @@ public class RegServiceImpl implements RegService {
         return false;
     }
 
+    @Logger("修改法规")
     @Override
     public Boolean updateReg(Regulations regulations) {
         int i = regDao.updateReg(regulations);
@@ -115,8 +122,9 @@ public class RegServiceImpl implements RegService {
         return false;
     }
 
+    @Logger("删除法规")
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean delReg(Integer rid) throws Exception{
         int i = regDao.delReg(rid);
         if (i > 0) {
@@ -144,8 +152,9 @@ public class RegServiceImpl implements RegService {
         return regDao.getRegById(rid);
     }
 
+    @Logger("删除一级分类")
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean delType(Integer typeId) throws Exception{
         int i = regDao.delType(typeId);
         if (i > 0) {

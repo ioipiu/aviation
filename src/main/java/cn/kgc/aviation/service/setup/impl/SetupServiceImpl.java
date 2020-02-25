@@ -1,8 +1,11 @@
 package cn.kgc.aviation.service.setup.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.setup.SetupDao;
 import cn.kgc.aviation.model.entity.*;
 import cn.kgc.aviation.service.setup.SetupService;
+import cn.kgc.aviation.utils.ApplicationParams;
+import cn.kgc.aviation.utils.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,7 @@ public class SetupServiceImpl implements SetupService {
         return setupDao.getIntro();
     }
 
+    @Logger("修改公司介绍")
     @Override
     public Boolean updateIntro(Integer id, String desc) {
         int i = setupDao.updateIntro(id, desc);
@@ -43,6 +47,7 @@ public class SetupServiceImpl implements SetupService {
         return setupDao.getAgree();
     }
 
+    @Logger("修改条款")
     @Override
     public Boolean updateAgree(Integer id, String content) {
         int i = setupDao.updateAgree(id, content);
@@ -54,13 +59,15 @@ public class SetupServiceImpl implements SetupService {
 
     @Override
     public Smtp getSmtp() {
-        return setupDao.getSmtp();
+        return ApplicationParams.smtp;
     }
 
+    @Logger("修改邮箱配置")
     @Override
     public Boolean updateSmtp(Smtp smtp) {
         int i = setupDao.updateSmtp(smtp);
         if (i > 0) {
+            ApplicationParams.smtp = smtp;
             return true;
         }
         return false;
@@ -68,13 +75,15 @@ public class SetupServiceImpl implements SetupService {
 
     @Override
     public Sms getSms() {
-        return setupDao.getSms();
+        return ApplicationParams.sms;
     }
 
+    @Logger("修改短信配置")
     @Override
     public Boolean updateSms(Integer id, String apiKey) {
         int i = setupDao.updateSms(id, apiKey);
         if (i > 0) {
+            ApplicationParams.sms.setApiKey(apiKey);
             return true;
         }
         return false;
@@ -94,6 +103,7 @@ public class SetupServiceImpl implements SetupService {
         return map;
     }
 
+    @Logger("删除意见反馈")
     @Override
     public Boolean delFeedback(String fid) {
         int i = setupDao.delFeedback(fid);
@@ -108,9 +118,20 @@ public class SetupServiceImpl implements SetupService {
         return setupDao.getWebSet();
     }
 
+    @Logger("修改网站设置")
     @Override
     public Boolean updateWebSet(Websettings websettings) {
         int i = setupDao.updateWebSet(websettings);
+        if (i > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean addFeedback(Feedback feedback) {
+        feedback.setFid(IDGenerator.getID());
+        int i = setupDao.addFeedback(feedback);
         if (i > 0) {
             return true;
         }

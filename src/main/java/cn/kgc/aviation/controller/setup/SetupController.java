@@ -130,4 +130,13 @@ public class SetupController {
         }
         return ResultUtil.success("修改成功");
     }
+
+    @PostMapping("/addFeedback")
+    public Result addFeedback(@RequestBody Feedback feedback) {
+        Boolean flag = setupService.addFeedback(feedback);
+        if (!flag) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success("提交成功");
+    }
 }

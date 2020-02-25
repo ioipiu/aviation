@@ -22,4 +22,12 @@ public interface UserDao {
 
     Integer getConTotal();
 
+    Users login(@Param("mobile") String mobile, @Param("pwd") String password);
+
+    int register(@Param("user") Users users);
+
+    int addConsulting(@Param("con") Consulting consulting);
+
+    List<Consulting> getConByUid(@Param("uid") String uid);
+
 }

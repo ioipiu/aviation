@@ -1,5 +1,6 @@
 package cn.kgc.aviation.service.regulations.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.regulations.CascaderDao;
 import cn.kgc.aviation.model.dto.DirectoryDto;
 import cn.kgc.aviation.model.dto.Options;
@@ -83,10 +84,10 @@ public class CascaderServiceImpl implements CascaderService {
         return cascaderDao.getAllReg();
     }
 
+    @Logger("删除目录")
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean delDir(Integer rid, Integer did) throws Exception{
-
         int i = cascaderDao.delDir(did);
         if (i > 0) {
             cascaderDao.delTermsById(did);

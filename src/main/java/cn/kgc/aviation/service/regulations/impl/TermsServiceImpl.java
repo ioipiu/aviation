@@ -1,5 +1,6 @@
 package cn.kgc.aviation.service.regulations.impl;
 
+import cn.kgc.aviation.config.Logger;
 import cn.kgc.aviation.dao.regulations.TermsDao;
 import cn.kgc.aviation.model.dto.vo.TermsVo;
 import cn.kgc.aviation.model.entity.Terms;
@@ -39,8 +40,9 @@ public class TermsServiceImpl implements TermsService {
         return map;
     }
 
+    @Logger("删除条款")
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean delTerms(Integer tid) throws Exception{
         int i = termsDao.delTerms(tid);
         if (i > 0) {
@@ -54,6 +56,7 @@ public class TermsServiceImpl implements TermsService {
         return termsDao.getTermsById(tid);
     }
 
+    @Logger("修改条款")
     @Override
     public Boolean updateTerms(Terms terms) {
         int i = termsDao.updateTerms(terms);
@@ -63,6 +66,7 @@ public class TermsServiceImpl implements TermsService {
         return false;
     }
 
+    @Logger("添加条款")
     @Override
     public Boolean addTerms(Terms terms) {
         int i = termsDao.addTerms(terms);
