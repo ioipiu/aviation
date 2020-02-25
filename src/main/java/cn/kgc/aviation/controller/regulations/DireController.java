@@ -4,6 +4,8 @@ import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.Directory;
 import cn.kgc.aviation.service.regulations.DireService;
 import cn.kgc.aviation.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +23,12 @@ public class DireController {
 
     @Autowired
     private DireService direService;
+    private static Logger logger = LoggerFactory.getLogger(DireController.class);
 
     @PostMapping("/addDir")
     public Result addDir(@RequestBody Directory directory) {
         Boolean flag = direService.addDir(directory);
+        logger.info("访问了DireController -> addDir");
         if (!flag) {
             return ResultUtil.failure(3001);
         }
@@ -34,6 +38,7 @@ public class DireController {
     @PostMapping("/updateDir")
     public Result updateDir(@RequestBody Directory directory) {
         Boolean flag = direService.updateDir(directory);
+        logger.info("访问了DireController -> updateDir");
         if (!flag) {
             return ResultUtil.failure(3001);
         }

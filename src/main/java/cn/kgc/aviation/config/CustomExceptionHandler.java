@@ -19,12 +19,12 @@ import java.util.Map;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CustomExceptionHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
     public Map errorHander(Exception e) {
         HashMap<String, Object> map = new HashMap<>();
-        LOGGER.error(e.toString());
+        logger.error(e.toString());
         map.put("code", 3001);
         map.put("msg","未知错误");
         return map;

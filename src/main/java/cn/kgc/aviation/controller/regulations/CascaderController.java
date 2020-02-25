@@ -6,6 +6,8 @@ import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.dto.vo.RegulationsVo;
 import cn.kgc.aviation.service.regulations.CascaderService;
 import cn.kgc.aviation.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +29,12 @@ import java.util.List;
 public class CascaderController {
     @Autowired
     private CascaderService cascaderService;
+    private static Logger logger = LoggerFactory.getLogger(CascaderController.class);
 
     @RequestMapping("/showOptions")
     public Result showOptions() {
         List<Options> options = cascaderService.showOptions();
+        logger.info("访问了CascaderController -> showOptions");
         if (options.size() == 0) {
             return ResultUtil.failure(3001);
         }
@@ -40,6 +44,7 @@ public class CascaderController {
     @RequestMapping("/showDire")
     public Result showDire() {
         List<DirectoryDto> directoryDtos = cascaderService.showDirOptions();
+        logger.info("访问了CascaderController -> showDire");
         if (directoryDtos.size() == 0) {
             return ResultUtil.failure(3001);
         }
@@ -50,6 +55,7 @@ public class CascaderController {
     @PostMapping("/getDir")
     public Result getDir(Integer rid) {
         List<DirectoryDto> directoryDtos = cascaderService.getDire(rid);
+        logger.info("访问了CascaderController -> getDir");
         if (directoryDtos.size() == 0) {
             return ResultUtil.failure(3001);
         }
@@ -59,6 +65,7 @@ public class CascaderController {
     @RequestMapping("/getAllReg")
     public Result getReg() {
         List<RegulationsVo> list = cascaderService.getAllReg();
+        logger.info("访问了CascaderController -> getReg");
         if (list.size() == 0) {
             return ResultUtil.failure(3001);
         }
@@ -68,6 +75,7 @@ public class CascaderController {
     @PostMapping("/delDir")
     public Result delDir(Integer rid, Integer did) throws Exception {
         Boolean flag = cascaderService.delDir(rid, did);
+        logger.info("访问了CascaderController -> delDir");
         if (!flag) {
             return ResultUtil.failure(3001);
         }
