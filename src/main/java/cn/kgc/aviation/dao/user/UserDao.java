@@ -30,4 +30,5 @@ public interface UserDao {
 
     List<Consulting> getConByUid(@Param("uid") String uid);
 
+    int changePwd(@Param("oldPwd") String oldPwd, @Param("newPwd") String newPwd, @Param("uid") String uid);
 }

@@ -61,4 +61,8 @@
     <select id="getTermByDid" resultMap="term">
         select * from `terms` where `did`=#{did}
     </select>
+
+    <select id="getTermsByKeyWord" resultMap="term">
+        select * from `terms` where `terms_keyword` like CONCAT('%',#{keyWord},'%') or `terms_title` like CONCAT('%',#{keyWord},'%')
+    </select>
 </mapper>

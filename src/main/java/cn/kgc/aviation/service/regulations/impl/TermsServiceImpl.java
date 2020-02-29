@@ -80,4 +80,10 @@ public class TermsServiceImpl implements TermsService {
     public List<Terms> getTermsByDid(Integer did) {
         return termsDao.getTermByDid(did);
     }
+
+    @Override
+    public List<Terms> getTermsByKeyWord(String keyWord) {
+        return termsDao.getTermsByKeyWord(keyWord);
+    }
+
 }

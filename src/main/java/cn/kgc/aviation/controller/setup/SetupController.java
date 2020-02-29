@@ -1,5 +1,6 @@
 package cn.kgc.aviation.controller.setup;
 
+import cn.kgc.aviation.api.setup.SetupApi;
 import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.*;
 import cn.kgc.aviation.service.setup.SetupService;
@@ -21,11 +22,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/setup")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class SetupController {
+public class SetupController implements SetupApi {
     @Autowired
     private SetupService setupService;
     private static Logger logger = LoggerFactory.getLogger(SetupController.class);
 
+    @Override
     @RequestMapping("/getIntro")
     public Result getIntro() {
         Introduction intro = setupService.getIntro();
@@ -36,6 +38,7 @@ public class SetupController {
         return ResultUtil.success(intro);
     }
 
+    @Override
     @PostMapping("/updateIntro")
     public Result updateIntro(Integer id, String desc) {
         Boolean flag = setupService.updateIntro(id, desc);
@@ -46,6 +49,7 @@ public class SetupController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @RequestMapping("/getAgree")
     public Result getAgree() {
         Agreement agree = setupService.getAgree();
@@ -56,6 +60,7 @@ public class SetupController {
         return ResultUtil.success(agree);
     }
 
+    @Override
     @PostMapping("/updateAgree")
     public Result updateAgree(Integer id, String content) {
         Boolean flag = setupService.updateAgree(id, content);
@@ -66,6 +71,7 @@ public class SetupController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @RequestMapping("/getSmtp")
     public Result getSmtp() {
         Smtp smtp = setupService.getSmtp();
@@ -76,6 +82,7 @@ public class SetupController {
         return ResultUtil.success(smtp);
     }
 
+    @Override
     @PostMapping("/updateSmtp")
     public Result updateSmtp(@RequestBody Smtp smtp) {
         Boolean flag = setupService.updateSmtp(smtp);
@@ -86,6 +93,7 @@ public class SetupController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @RequestMapping("/getSms")
     public Result getSms() {
         Sms sms = setupService.getSms();
@@ -96,6 +104,7 @@ public class SetupController {
         return ResultUtil.success(sms);
     }
 
+    @Override
     @PostMapping("/updateSms")
     public Result updateSms(Integer id, String apiKey) {
         Boolean flag = setupService.updateSms(id, apiKey);
@@ -106,6 +115,7 @@ public class SetupController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @PostMapping("/showFeedback")
     public Result showFeedback(Integer currentPage, Integer pageSize) {
         Map<String, Object> map = setupService.showFeedback(currentPage, pageSize);
@@ -116,6 +126,7 @@ public class SetupController {
         return ResultUtil.success(map);
     }
 
+    @Override
     @PostMapping("/delFeedback")
     public Result delFeedback(String fid) {
         Boolean flag = setupService.delFeedback(fid);
@@ -126,6 +137,7 @@ public class SetupController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @RequestMapping("/getWebSet")
     public Result getWebSet() {
         Websettings webSet = setupService.getWebSet();
@@ -136,6 +148,7 @@ public class SetupController {
         return ResultUtil.success(webSet);
     }
 
+    @Override
     @PostMapping("/updateWebSet")
     public Result updateWebSet(@RequestBody Websettings websettings) {
         Boolean flag = setupService.updateWebSet(websettings);
@@ -146,8 +159,9 @@ public class SetupController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @PostMapping("/addFeedback")
-    public Result addFeedback(@RequestBody Feedback feedback) {
+    public Result addFeedback(Feedback feedback) {
         Boolean flag = setupService.addFeedback(feedback);
         logger.info("访问了SetupController -> addFeedback");
         if (!flag) {

@@ -1,5 +1,6 @@
 package cn.kgc.aviation.controller.regulations;
 
+import cn.kgc.aviation.api.regulations.CascaderApi;
 import cn.kgc.aviation.model.dto.DirectoryDto;
 import cn.kgc.aviation.model.dto.Options;
 import cn.kgc.aviation.model.dto.Result;
@@ -26,11 +27,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/cascader")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class CascaderController {
+public class CascaderController implements CascaderApi {
     @Autowired
     private CascaderService cascaderService;
     private static Logger logger = LoggerFactory.getLogger(CascaderController.class);
 
+    @Override
     @RequestMapping("/showOptions")
     public Result showOptions() {
         List<Options> options = cascaderService.showOptions();
@@ -41,6 +43,7 @@ public class CascaderController {
         return ResultUtil.success(options);
     }
 
+    @Override
     @RequestMapping("/showDire")
     public Result showDire() {
         List<DirectoryDto> directoryDtos = cascaderService.showDirOptions();
@@ -52,6 +55,7 @@ public class CascaderController {
 
     }
 
+    @Override
     @PostMapping("/getDir")
     public Result getDir(Integer rid) {
         List<DirectoryDto> directoryDtos = cascaderService.getDire(rid);
@@ -62,6 +66,7 @@ public class CascaderController {
         return ResultUtil.success(directoryDtos);
     }
 
+    @Override
     @RequestMapping("/getAllReg")
     public Result getReg() {
         List<RegulationsVo> list = cascaderService.getAllReg();
@@ -72,6 +77,7 @@ public class CascaderController {
         return ResultUtil.success(list);
     }
 
+    @Override
     @PostMapping("/delDir")
     public Result delDir(Integer rid, Integer did) throws Exception {
         Boolean flag = cascaderService.delDir(rid, did);

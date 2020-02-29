@@ -1,5 +1,6 @@
 package cn.kgc.aviation.controller.collect;
 
+import cn.kgc.aviation.api.collect.CollectApi;
 import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.Collect;
 import cn.kgc.aviation.service.collect.CollectService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 /**
@@ -23,12 +25,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/coll")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class CollectController {
+public class CollectController implements CollectApi {
 
     @Autowired
     private CollectService collectService;
     private static Logger logger = LoggerFactory.getLogger(CollectController.class);
 
+    @Override
     @PostMapping("/getCollectionByUid")
     public Result getCollectionByUid(String uid) {
         List<Collect> collectList = collectService.getCollectionByUid(uid);
@@ -39,6 +42,7 @@ public class CollectController {
         return ResultUtil.success(collectList);
     }
 
+    @Override
     @PostMapping("/getAllCollection")
     public Result getAllCollection(String uid) {
         List<Collect> collectList = collectService.getAllCollection(uid);
@@ -49,6 +53,7 @@ public class CollectController {
         return ResultUtil.success(collectList);
     }
 
+    @Override
     @PostMapping("/getCollectionByCid")
     public Result getCollectionByCid(Integer cid) {
         Collect collect = collectService.getCollectionByCid(cid);
@@ -59,6 +64,7 @@ public class CollectController {
         return ResultUtil.success(collect);
     }
 
+    @Override
     @PostMapping("/addCollection")
     public Result addCollection(String uid, Integer tid) {
         Boolean flag = collectService.addCollection(uid, tid);
@@ -69,6 +75,7 @@ public class CollectController {
         return ResultUtil.success("添加成功");
     }
 
+    @Override
     @PostMapping("/delCollection")
     public Result delCollection(Integer cid) {
         Boolean flag = collectService.delCollection(cid);
@@ -79,6 +86,7 @@ public class CollectController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @PostMapping("/getCollect")
     public Result getCollect(String uid, Integer tid) {
         Collect collect = collectService.getCollect(uid, tid);
@@ -88,5 +96,6 @@ public class CollectController {
         }
         return ResultUtil.success(collect);
     }
+
 
 }

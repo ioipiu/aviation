@@ -19,4 +19,6 @@ public interface TermsService {
     Boolean addTerms(Terms terms);
 
     List<Terms> getTermsByDid(Integer did);
+
+    List<Terms> getTermsByKeyWord(String keyWord);
 }

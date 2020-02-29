@@ -1,5 +1,6 @@
 package cn.kgc.aviation.controller.regulations;
 
+import cn.kgc.aviation.api.regulations.RegApi;
 import cn.kgc.aviation.config.QNConfig;
 import cn.kgc.aviation.model.dto.Options;
 import cn.kgc.aviation.model.dto.Result;
@@ -30,7 +31,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/reg")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class RegController {
+public class RegController implements RegApi {
 
     private static Logger logger = LoggerFactory.getLogger(RegController.class);
     @Autowired
@@ -48,6 +49,7 @@ public class RegController {
     @Value("${qiniu.path}")
     private String host;
 
+    @Override
     @RequestMapping("/type")
     public Result showType() {
         List<RegulationsType> regulationsTypes = regService.showType();
@@ -58,6 +60,7 @@ public class RegController {
         return ResultUtil.success(regulationsTypes);
     }
 
+    @Override
     @PostMapping("/addType")
     public Result addType(String typeName) {
         Boolean flag = regService.addType(typeName);
@@ -68,6 +71,7 @@ public class RegController {
         return ResultUtil.success("添加成功");
     }
 
+    @Override
     @PostMapping("/showClassify")
     public Result showClassify(Integer typeId) {
         List<RegulationsClassify> list = regService.showClassify(typeId);
@@ -78,6 +82,7 @@ public class RegController {
         return ResultUtil.success(list);
     }
 
+    @Override
     @PostMapping("/addClassify")
     public Result addClassify(Integer typeId, String classifyName) {
         Boolean flag = regService.addClassify(typeId, classifyName);
@@ -88,6 +93,7 @@ public class RegController {
         return ResultUtil.success("添加成功");
     }
 
+    @Override
     @PostMapping("/updateClassify")
     public Result updateClassify(@RequestBody RegulationsClassify regulationsClassify) {
         Boolean flag = regService.updateClassify(regulationsClassify);
@@ -98,6 +104,7 @@ public class RegController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @PostMapping("/delClassify")
     public Result delClassify(Integer classifyId) throws Exception {
         Boolean flag = regService.delClassify(classifyId);
@@ -108,6 +115,7 @@ public class RegController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @PostMapping("/getAll")
     public Result getAll(Integer currentPage, Integer pageSize) {
         Map<String, Object> map = regService.getAllReg(currentPage, pageSize);
@@ -118,6 +126,7 @@ public class RegController {
         return ResultUtil.success(map);
     }
 
+    @Override
     @PostMapping("/delReg")
     public Result delReg(Integer rid) throws Exception {
         Boolean flag = regService.delReg(rid);
@@ -128,6 +137,7 @@ public class RegController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @PostMapping("/getRegById")
     public Result getRegById(Integer rid) {
         HashMap<String, Object> map = new HashMap<>();
@@ -142,6 +152,7 @@ public class RegController {
         return ResultUtil.success(map);
     }
 
+    @Override
     @PostMapping("/updateReg")
     public Result updateReg(@RequestBody Regulations regulations) {
         Boolean flag = regService.updateReg(regulations);
@@ -152,6 +163,7 @@ public class RegController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @PostMapping("/addReg")
     public Result addReg(@RequestBody Regulations regulations) {
         Boolean flag = regService.addReg(regulations);
@@ -162,6 +174,7 @@ public class RegController {
         return ResultUtil.success("添加成功");
     }
 
+    @Override
     @RequestMapping("/getToken")
     public Result getToken() {
         logger.info("访问了RegController -> getToken");
@@ -173,6 +186,7 @@ public class RegController {
         return ResultUtil.success(map);
     }
 
+    @Override
     @PostMapping("/delType")
     public Result delType(Integer typeId) throws Exception {
         Boolean flag = regService.delType(typeId);
@@ -183,6 +197,7 @@ public class RegController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @PostMapping("/getRegsByTypeId")
     public Result getRegsByTypeId(Integer typeId) {
         List<RegulationsClassify> regs = regService.getRegsByTypeId(typeId);

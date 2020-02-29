@@ -24,4 +24,5 @@ public interface TermsDao {
 
     List<Terms> getTermByDid(@Param("did")Integer did);
 
+    List<Terms> getTermsByKeyWord(@Param("keyWord") String keyWord);
 }

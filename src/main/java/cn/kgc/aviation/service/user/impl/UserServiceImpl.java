@@ -104,5 +104,14 @@ public class UserServiceImpl implements UserService {
         return userDao.getConByUid(uid);
     }
 
+    @Override
+    public Boolean changePwd(String oldPwd, String newPwd, String uid) {
+        int i = userDao.changePwd(oldPwd, newPwd, uid);
+        if (i > 0) {
+            return true;
+        }
+        return false;
+    }
+
 
 }

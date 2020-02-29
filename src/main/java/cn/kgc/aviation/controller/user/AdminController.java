@@ -1,6 +1,5 @@
 package cn.kgc.aviation.controller.user;
 
-;
 import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.Admin;
 import cn.kgc.aviation.model.entity.Info;
@@ -10,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -30,6 +30,7 @@ public class AdminController {
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping("/login")
+    @ApiIgnore
     public Result login(String mobile, String passWord) {
         Result result = new Result();
         Admin admin = adminService.login(mobile, passWord);
@@ -50,6 +51,7 @@ public class AdminController {
     }
 
     @PostMapping("/showAdmin")
+    @ApiIgnore
     public Result showAdmin(Integer currentPage, Integer pageSize) {
         Map<String, Object> map = adminService.showAdmin(currentPage, pageSize);
         logger.info("访问了AdminController -> showAdmin");
@@ -60,6 +62,7 @@ public class AdminController {
     }
 
     @PostMapping("/findMobile")
+    @ApiIgnore
     public Result findMobile(String mobile) {
         Boolean flag = adminService.findMobile(mobile);
         logger.info("访问了AdminController -> findMobile");
@@ -70,6 +73,7 @@ public class AdminController {
     }
 
     @PostMapping("/addAdmin")
+    @ApiIgnore
     public Result addAdmin(String mobile, String aname, String passWord) {
         Boolean flag = adminService.addAdmin(mobile, aname, passWord);
         logger.info("访问了AdminController -> addAdmin");
@@ -80,6 +84,7 @@ public class AdminController {
     }
 
     @PostMapping("/delAdmin")
+    @ApiIgnore
     public Result delAdmin(Integer aid) {
         Boolean flag = adminService.delAdmin(aid);
         logger.info("访问了AdminController -> delAdmin");
@@ -90,6 +95,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateAdmin")
+    @ApiIgnore
     public Result updateAdmin(Integer aid, String aname, String passWord) {
         Boolean flag = adminService.updateAdmin(aid, aname, passWord);
         logger.info("访问了AdminController -> updateAdmin");
@@ -99,6 +105,7 @@ public class AdminController {
         return ResultUtil.success("修改成功");
     }
 
+    @ApiIgnore
     @RequestMapping("/getInfo")
     public Result getInfo(@RequestParam("token") String token) {
         Info info = new Info();
@@ -122,6 +129,7 @@ public class AdminController {
     }
 
     @PostMapping("/logout")
+    @ApiIgnore
     public Result logout() {
         logger.info("访问了AdminController -> logout");
         Result result = new Result();

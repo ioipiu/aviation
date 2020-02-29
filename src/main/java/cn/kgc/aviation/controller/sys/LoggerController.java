@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class LoggerController {
     private LoggerService loggerService;
 
     @PostMapping("/showLoggers")
+    @ApiIgnore
     public Result showLoggers(Integer currentPage, Integer pageSize) {
         Map<String, Object> map = loggerService.showLoggers(currentPage, pageSize);
         if (null == map) {

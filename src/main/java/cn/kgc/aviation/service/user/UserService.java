@@ -25,4 +25,6 @@ public interface UserService {
 
     List<Consulting> getConByUid(String uid);
 
+    Boolean changePwd(String oldPwd, String newPwd, String uid);
+
 }

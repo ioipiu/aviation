@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @program: aviation
@@ -26,6 +27,7 @@ public class DireController {
     private static Logger logger = LoggerFactory.getLogger(DireController.class);
 
     @PostMapping("/addDir")
+    @ApiIgnore
     public Result addDir(@RequestBody Directory directory) {
         Boolean flag = direService.addDir(directory);
         logger.info("访问了DireController -> addDir");
@@ -36,6 +38,7 @@ public class DireController {
     }
 
     @PostMapping("/updateDir")
+    @ApiIgnore
     public Result updateDir(@RequestBody Directory directory) {
         Boolean flag = direService.updateDir(directory);
         logger.info("访问了DireController -> updateDir");

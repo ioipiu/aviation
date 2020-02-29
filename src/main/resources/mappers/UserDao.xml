@@ -71,4 +71,7 @@
         select * from `consulting` where `uid`=#{uid}
     </select>
 
+    <update id="changePwd">
+        update `users` set password=#{newPwd} where uid=#{uid} and password=#{oldPwd}
+    </update>
 </mapper>

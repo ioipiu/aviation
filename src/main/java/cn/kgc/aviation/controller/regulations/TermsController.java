@@ -1,5 +1,6 @@
 package cn.kgc.aviation.controller.regulations;
 
+import cn.kgc.aviation.api.regulations.TermsApi;
 import cn.kgc.aviation.model.dto.Result;
 import cn.kgc.aviation.model.entity.Terms;
 import cn.kgc.aviation.service.regulations.TermsService;
@@ -22,12 +23,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/term")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class TermsController {
+public class TermsController implements TermsApi {
 
     @Autowired
     private TermsService termsService;
     private static Logger logger = LoggerFactory.getLogger(TermsController.class);
 
+    @Override
     @PostMapping("/getTerms")
     public Result getTerms(Integer rid, Integer currentPage, Integer pageSize) {
         Map<String, Object> map = termsService.getTerms(rid, currentPage, pageSize);
@@ -38,6 +40,7 @@ public class TermsController {
         return ResultUtil.success(map);
     }
 
+    @Override
     @PostMapping("/getTermsById")
     public Result getTermsById(Integer tid) {
         Terms terms = termsService.getTermsById(tid);
@@ -48,6 +51,7 @@ public class TermsController {
         return ResultUtil.success(terms);
     }
 
+    @Override
     @PostMapping("/delTerms")
     public Result delTerms(Integer tid) throws Exception {
         Boolean flag = termsService.delTerms(tid);
@@ -58,6 +62,7 @@ public class TermsController {
         return ResultUtil.success("删除成功");
     }
 
+    @Override
     @PostMapping("/updateTerms")
     public Result updateTerms(@RequestBody Terms terms) {
         Boolean flag = termsService.updateTerms(terms);
@@ -68,6 +73,7 @@ public class TermsController {
         return ResultUtil.success("修改成功");
     }
 
+    @Override
     @PostMapping("/addTerms")
     public Result addTerms(@RequestBody Terms terms) {
         Boolean flag = termsService.addTerms(terms);
@@ -78,10 +84,21 @@ public class TermsController {
         return ResultUtil.success("添加成功");
     }
 
+    @Override
     @PostMapping("/getTermsByDid")
     public Result getTermsByDid(Integer did) {
         List<Terms> termsList = termsService.getTermsByDid(did);
         logger.info("访问了TermsController -> getTermsByDid");
+        if (termsList.size() == 0) {
+            return ResultUtil.failure(3001);
+        }
+        return ResultUtil.success(termsList);
+    }
+
+    @Override
+    @PostMapping("/getTermsByKeyWord")
+    public Result getTermsByKeyWord(String keyWord) {
+        List<Terms> termsList = termsService.getTermsByKeyWord(keyWord);
         if (termsList.size() == 0) {
             return ResultUtil.failure(3001);
         }
